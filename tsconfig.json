@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true, // Bỏ qua kiểm tra kiểu trong file .d.ts, giúp tăng tốc biên dịch và tránh lỗi không cần thiết
+    "moduleResolution": "node", // Đảm bảo TypeScript tìm module theo kiểu Node.js
+    "esModuleInterop": true, // Tương thích với CommonJS, cần cho nhiều thư viện
+    "types": ["node", "three", "@react-three/fiber"], // Đảm bảo TypeScript nhận diện các kiểu của Node.js và Three.js
+    "noEmit": true, // Ngăn TypeScript sinh file đầu ra, vì Vite sẽ xử lý việc này
+    "jsx": "react-jsx",
+  },
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" },
+  ],
+  "include": ["src", "src/types"],
+}
