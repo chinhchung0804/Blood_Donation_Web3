@@ -52,7 +52,7 @@ const App: React.FC = () => {
             <Route path="/schedule" element={<ScheduleAppointment theme={theme} />} />
             <Route path="/final" element={<FinalPage isSidebarExpanded={isSidebarExpanded} theme={theme} />} />
             <Route path="/campaign" element={<Campaign isSidebarExpanded={isSidebarExpanded} theme={theme} />} />
-            <Route path="/history" element={<HistoryPage theme={theme} />} />
+            <Route path="/history" element={<HistoryPage theme={theme} isSidebarCollapsed={isSidebarExpanded} />} />
           </Routes>
         </div>
       </div>

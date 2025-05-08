@@ -9,7 +9,7 @@ interface FormData {
 
 interface DonatePageProps {
   isSidebarExpanded: boolean;
-  theme: 'light' | 'dark'; // Thêm theme vào props
+  theme: 'light' | 'dark';
 }
 
 function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
@@ -20,7 +20,6 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  // Generate blood drops on component mount
   useEffect(() => {
     const generateBloodDrops = () => {
       const newDrops = Array.from({ length: 15 }, (_, i) => ({
@@ -39,7 +38,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    setError(null); // Reset error when user changes input
+    setError(null);
   };
 
   const validateForm = () => {
@@ -95,8 +94,8 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
     const button = e.currentTarget.querySelector('button[type="submit"]');
     if (button) {
       const rect = button.getBoundingClientRect();
-      const x = rect.width / 2; // Center of the button
-      const y = rect.height / 2; // Center of the button
+      const x = rect.width / 2;
+      const y = rect.height / 2;
       setShowRipple({ x, y });
     }
     setShowResults(true);
@@ -104,10 +103,10 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
 
   const handleNavigate = (e: React.MouseEvent<HTMLButtonElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = rect.width / 2; // Center of the button
-    const y = rect.height / 2; // Center of the button
+    const x = rect.width / 2;
+    const y = rect.height / 2;
     setShowRipple({ x, y });
-    setTimeout(() => navigate('/schedule'), 300); // Navigate after ripple effect
+    setTimeout(() => navigate('/schedule'), 300);
   };
 
   const isEligible = () => {
@@ -146,7 +145,6 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
     <div className={`min-h-screen relative overflow-hidden transition-colors duration-300 ${
       theme === 'dark' ? 'bg-gradient-to-b from-gray-900 to-gray-800' : 'bg-gradient-to-b from-gray-50 to-gray-100'
     }`}>
-      {/* Animated Blood Drops Background */}
       <div className="absolute inset-0 pointer-events-none">
         {bloodDrops.map((drop) => (
           <div
@@ -162,7 +160,6 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
         ))}
       </div>
 
-      {/* Main Content with Dynamic Padding */}
       <div
         className={`max-w-4xl mx-auto relative z-10 py-8 px-4 transition-all duration-300 ${
           isSidebarExpanded ? 'md:pl-64' : 'md:pl-16'
@@ -175,7 +172,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
             }`} />
           </div>
           <h1 className={`text-4xl font-bold mb-2 animate-heartbeat-text ${
-            theme === 'dark' ? 'text-red-500' : 'text-red-600'
+            theme === 'dark' ? 'text-white' : 'text-red-600'
           }`}>
             Kiểm Tra Điều Kiện Hiến Máu
           </h1>
@@ -196,7 +193,6 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Thông Tin Cơ Bản */}
           <div className="question-group">
             <h2 className={`section-title animate-heartbeat-text ${
               theme === 'dark' ? 'text-white' : 'text-black'
@@ -215,7 +211,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('age', e.target.value === 'yes')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -228,7 +224,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                   type="number"
                   placeholder="Nhập tuổi chính xác của bạn"
                   className={`form-input mt-2 ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                   onChange={(e) => handleInputChange('exactAge', e.target.value)}
                 />
@@ -243,7 +239,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('weight', e.target.value === 'yes')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -254,7 +250,6 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
             </div>
           </div>
 
-          {/* Tình Trạng Sức Khỏe */}
           <div className="question-group">
             <h2 className={`section-title animate-heartbeat-text ${
               theme === 'dark' ? 'text-white' : 'text-black'
@@ -268,7 +263,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('recentIllness', e.target.value === 'yes')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -286,7 +281,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('chronicConditions', e.target.value === 'yes')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -302,7 +297,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                   <select
                     onChange={(e) => handleInputChange('conditionManaged', e.target.value === 'yes')}
                     className={`form-select ${
-                      theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                      theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                     }`}
                   >
                     <option value="">Chọn...</option>
@@ -321,7 +316,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('medications', e.target.value === 'yes')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -333,7 +328,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <textarea
                   placeholder="Vui lòng liệt kê các loại thuốc bạn đang dùng (không bắt buộc)"
                   className={`form-input mt-2 ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                   onChange={(e) => handleInputChange('medicationList', e.target.value)}
                 />
@@ -341,7 +336,6 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
             </div>
           </div>
 
-          {/* Lịch Sử Y Tế */}
           <div className="question-group">
             <h2 className={`section-title animate-heartbeat-text ${
               theme === 'dark' ? 'text-white' : 'text-black'
@@ -355,7 +349,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('infectiousDisease', e.target.value === 'yes')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -373,7 +367,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('recentVaccination', e.target.value === 'yes')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -391,7 +385,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('bleedingDisorders', e.target.value === 'yes')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -402,7 +396,6 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
             </div>
           </div>
 
-          {/* Yếu Tố Lối Sống */}
           <div className="question-group">
             <h2 className={`section-title animate-heartbeat-text ${
               theme === 'dark' ? 'text-white' : 'text-black'
@@ -416,7 +409,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('recentAlcohol', e.target.value === 'yes')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -434,7 +427,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('recentDrugs', e.target.value === 'yes')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -452,7 +445,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('recentTattoo', e.target.value === 'yes')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -463,7 +456,6 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
             </div>
           </div>
 
-          {/* Đánh Giá Du Lịch và Rủi Ro */}
           <div className="question-group">
             <h2 className={`section-title animate-heartbeat-text ${
               theme === 'dark' ? 'text-white' : 'text-black'
@@ -477,7 +469,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('recentTravel', e.target.value === 'yes')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -495,7 +487,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('highRiskActivities', e.target.value === 'no')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -506,7 +498,6 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
             </div>
           </div>
 
-          {/* Lần Hiến Máu Trước */}
           <div className="question-group">
             <h2 className={`section-title animate-heartbeat-text ${
               theme === 'dark' ? 'text-white' : 'text-black'
@@ -520,7 +511,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('previousDonation', e.target.value === 'yes')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -532,7 +523,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <input
                   type="date"
                   className={`form-input mt-2 ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                   onChange={(e) => handleInputChange('lastDonationDate', e.target.value)}
                 />
@@ -547,7 +538,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <select
                   onChange={(e) => handleInputChange('recentDonation', e.target.value === 'yes')}
                   className={`form-select ${
-                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-black'
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'
                   }`}
                 >
                   <option value="">Chọn...</option>
@@ -558,7 +549,6 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
             </div>
           </div>
 
-          {/* Submit Button */}
           <div className="flex justify-center mt-12 relative">
             <button
               type="submit"
@@ -581,7 +571,6 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
           </div>
         </form>
 
-        {/* Results Section */}
         {showResults && (
           <div className={`results-card ${isEligible() ? 'eligible' : 'ineligible'} ${
             theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
@@ -589,7 +578,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
             <div className="flex items-center gap-3">
               <AlertCircle className={isEligible() ? 'text-green-600' : 'text-red-600'} />
               <h3 className={`text-xl font-semibold animate-heartbeat-text ${
-                isEligible() ? 'text-green-600' : 'text-red-600'
+                theme === 'dark' ? 'text-white' : isEligible() ? 'text-green-600' : 'text-red-600'
               }`}>
                 {isEligible() ? 'Bạn đủ điều kiện để hiến máu!' : 'Bạn hiện không đủ điều kiện để hiến máu'}
               </h3>
@@ -606,7 +595,7 @@ function DonatePage({ isSidebarExpanded, theme }: DonatePageProps) {
                 <button
                   className={`px-8 py-3 rounded-full font-semibold transition-colors flex items-center gap-2 justify-center ${
                     theme === 'dark'
-                      ? 'bg-gray-900 text-red-500 hover:bg-gray-700'
+                      ? 'bg-gray-900 text-white hover:bg-gray-700'
                       : 'bg-white text-red-600 hover:bg-gray-100'
                   }`}
                   onClick={handleNavigate}

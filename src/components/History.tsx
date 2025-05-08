@@ -27,9 +27,10 @@ interface DonationHistoryItem {
 
 interface HistoryPageProps {
   theme: 'light' | 'dark';
+  isSidebarCollapsed: boolean;
 }
 
-const HistoryPage = ({ theme }: HistoryPageProps) => {
+const HistoryPage: React.FC<HistoryPageProps> = ({ theme, isSidebarCollapsed }) => {
   const navigate = useNavigate();
   const [scheduleHistory, setScheduleHistory] = useState<ScheduleHistoryItem[]>([]);
   const [donationHistory, setDonationHistory] = useState<DonationHistoryItem[]>([]);
@@ -39,7 +40,6 @@ const HistoryPage = ({ theme }: HistoryPageProps) => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        // Lấy lịch sử đặt lịch từ scheduledDonors
         const scheduledDonors = JSON.parse(localStorage.getItem('scheduledDonors') || '[]');
         const scheduleHistoryData = await Promise.all(
           scheduledDonors.map(async (donor: { cid: string; name: string; walletAddress: string }) => {
@@ -53,7 +53,6 @@ const HistoryPage = ({ theme }: HistoryPageProps) => {
         );
         setScheduleHistory(scheduleHistoryData);
 
-        // Lấy lịch sử quyên góp từ userHistory
         const userHistory = JSON.parse(localStorage.getItem('userHistory') || '[]');
         setDonationHistory(userHistory);
       } catch (err) {
@@ -72,25 +71,33 @@ const HistoryPage = ({ theme }: HistoryPageProps) => {
   };
 
   return (
-    <div className={`min-h-screen relative overflow-hidden transition-colors duration-300 ${
-      theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'
-    }`}>
-      <div className={`container mx-auto pl-20 pr-4 py-16 transition-all duration-300 pt-16`}>
-        <h1 className={`text-4xl font-bold text-center mb-8 ${
-          theme === 'dark' ? 'text-white' : 'text-black'
-        }`}>
+    <div
+      className={`min-h-screen transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'
+        }`}
+    >
+      <div
+        className={`container mx-auto transition-all duration-300 p-4 sm:p-6 md:p-8 lg:p-10 xl:p-16 ${isSidebarCollapsed ? 'lg:彼此:pl-4' : 'lg:pl-16'
+          }`}
+      >
+        <h1
+          className={`text-3xl sm:text-4xl font-bold text-center mb-6 sm:mb-8 ${theme === 'dark' ? 'text-white' : 'text-black'
+            }`}
+        >
           Lịch Sử Hoạt Động
         </h1>
 
-        {/* Phần 1: Lịch sử đặt lịch */}
-        <div className="mb-12">
-          <h2 className={`text-2xl font-semibold mb-4 ${
-            theme === 'dark' ? 'text-white' : 'text-black'
-          }`}>
+        {/* Schedule History */}
+        <div className="mb-8 sm:mb-12">
+          <h2
+            className={`text-xl sm:text-2xl font-semibold mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'
+              }`}
+          >
             Lịch Sử Đặt Lịch
           </h2>
           {loading ? (
-            <p className={`text-center ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Đang tải...</p>
+            <p className={`text-center ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+              Đang tải...
+            </p>
           ) : error ? (
             <p className="text-red-500 text-center">{error}</p>
           ) : scheduleHistory.length === 0 ? (
@@ -98,12 +105,17 @@ const HistoryPage = ({ theme }: HistoryPageProps) => {
               Chưa có lịch sử đặt lịch nào.
             </p>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {scheduleHistory.map((item, index) => (
-                <div key={index} className={`p-6 rounded-lg shadow-md transition-colors duration-300 ${
-                  theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'
-                } border`}>
-                  <h3 className={`text-xl font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                <div
+                  key={index}
+                  className={`p-4 sm:p-6 rounded-lg shadow-md transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'
+                    } border`}
+                >
+                  <h3
+                    className={`text-lg sm:text-xl font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-black'
+                      }`}
+                  >
                     Đặt Lịch #{index + 1}
                   </h3>
                   <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>
@@ -127,9 +139,8 @@ const HistoryPage = ({ theme }: HistoryPageProps) => {
                         href={`https://gateway.pinata.cloud/ipfs/${item.imageCid}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`text-blue-500 hover:underline ${
-                          theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600'
-                        }`}
+                        className={`text-blue-500 hover:underline ${theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600'
+                          }`}
                       >
                         Xem hình ảnh
                       </a>
@@ -144,15 +155,18 @@ const HistoryPage = ({ theme }: HistoryPageProps) => {
           )}
         </div>
 
-        {/* Phần 2: Lịch sử quyên góp ETH */}
-        <div className="mb-12">
-          <h2 className={`text-2xl font-semibold mb-4 ${
-            theme === 'dark' ? 'text-white' : 'text-black'
-          }`}>
+        {/* Donation History */}
+        <div className="mb-8 sm:mb-12">
+          <h2
+            className={`text-xl sm:text-2xl font-semibold mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'
+              }`}
+          >
             Lịch Sử Quyên Góp ETH
           </h2>
           {loading ? (
-            <p className={`text-center ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Đang tải...</p>
+            <p className={`text-center ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+              Đang tải...
+            </p>
           ) : error ? (
             <p className="text-red-500 text-center">{error}</p>
           ) : donationHistory.length === 0 ? (
@@ -160,14 +174,19 @@ const HistoryPage = ({ theme }: HistoryPageProps) => {
               Chưa có lịch sử quyên góp ETH nào. Vui lòng đặt lịch và kết nối ví MetaMask để quyên góp.
             </p>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {donationHistory.map((item, index) => (
-                <div key={index} className={`p-6 rounded-lg shadow-md transition-colors duration-300 ${
-                  theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'
-                } border`}>
+                <div
+                  key={index}
+                  className={`p-4 sm:p-6 rounded-lg shadow-md transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-300'
+                    } border`}
+                >
                   {item.type === 'donation' ? (
                     <>
-                      <h3 className={`text-xl font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                      <h3
+                        className={`text-lg sm:text-xl font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-black'
+                          }`}
+                      >
                         Quyên Góp #{index + 1}
                       </h3>
                       <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>
@@ -188,7 +207,10 @@ const HistoryPage = ({ theme }: HistoryPageProps) => {
                     </>
                   ) : (
                     <>
-                      <h3 className={`text-xl font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                      <h3
+                        className={`text-lg sm:text-xl font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-black'
+                          }`}
+                      >
                         Tạo Chiến Dịch #{item.campaignId}
                       </h3>
                       <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>
@@ -211,15 +233,12 @@ const HistoryPage = ({ theme }: HistoryPageProps) => {
           )}
         </div>
 
-        {/* Nút đặt lịch mới */}
-        <div className="text-center mt-8">
+        {/* New Schedule Button */}
+        <div className="text-center mt-6 sm:mt-8">
           <button
             onClick={handleScheduleAgain}
-            className={`py-3 px-6 rounded-lg font-semibold transition-colors ${
-              theme === 'dark'
-                ? 'bg-red-600 text-white hover:bg-red-700'
-                : 'bg-red-400 text-white hover:bg-red-500'
-            }`}
+            className={`py-2 sm:py-3 px-4 sm:px-6 rounded-lg font-semibold transition-colors ${theme === 'dark' ? 'bg-red-600 text-white hover:bg-red-700' : 'bg-red-400 text-white hover:bg-red-500'
+              }`}
           >
             Đặt Lịch Quyên Góp Mới
           </button>
