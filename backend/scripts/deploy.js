@@ -1,4 +1,5 @@
 const hre = require("hardhat");
+const fs = require("fs");
 
 async function main() {
   const { ethers } = hre;
@@ -66,6 +67,7 @@ async function main() {
   await tx.wait();
 
   console.log(`Transferred 1000 MTK to Wallet at ${walletAddress}`);
+
 }
 
 main().catch((error) => {
